@@ -14,6 +14,15 @@ function App() {
   // inputValue string to store current input field value
   const [inputValue, setInputValue] = useState("");
 
+  // Tracks which filter is currently active: "all", "active", or "completed"
+  const [filter, setFilter] = useState("all");
+
+  // Stores the ID of the todo currently being edited
+  // null means no todo is being edited
+  const [editingId, setEditingId] = useState(null);
+
+  // Stores the text value when editing an existing todo
+  const [editValue, setEditValue] = useState("");
   // this function basically updates inputValue as the user types in the input field
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -33,6 +42,8 @@ function App() {
       id: Date.now(),
       text: inputValue.trim(),
       completed: false,
+      priority: "medium",
+      createdAt: new Date().toISOString(),
     };
 
     // Add the new todo to the todos array using spread operator
@@ -69,7 +80,7 @@ function App() {
     <div className="App">
       <Header title="My Todo List" />
 
-      <form onSubmit={handleSumbit} classname="todo-form">
+      <form onSubmit={handleSumbit} className="todo-form">
         <input
           type="text"
           value={inputValue}
@@ -84,7 +95,7 @@ function App() {
       <div className="todo-list">
         {todos.map((todo) => (
           <ToDoItem
-            key={todo.it}
+            key={todo.id}
             todo={todo}
             onToggle={() => toggleTodo(todo.id)}
             onDelete={() => deleteTodo(todo.id)}
