@@ -6,7 +6,7 @@ import Button from "./components/Button";
 import ToDoItem from "./components/TodoItems";
 
 function App() {
-  // ---------------- STATE ----------------
+  // Use state for important functions
 
   const [todos, setTodos] = useState([]);
   const [inputValue, setInputValue] = useState("");
@@ -14,7 +14,7 @@ function App() {
   const [editingId, setEditingId] = useState(null);
   const [editValue, setEditValue] = useState("");
 
-  // ---------------- LOCAL STORAGE ----------------
+  // Local storage for Inputted To-Dos
 
   useEffect(() => {
     const savedTodos = JSON.parse(localStorage.getItem("todos"));
@@ -27,7 +27,7 @@ function App() {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
 
-  // ---------------- ADD TODO ----------------
+  // Add a new to-do
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -46,7 +46,7 @@ function App() {
     setInputValue("");
   };
 
-  // ---------------- TOGGLE ----------------
+  // Toggles the to do between completed and active
 
   const toggleTodo = (id) => {
     setTodos(
@@ -58,13 +58,13 @@ function App() {
     );
   };
 
-  // ---------------- DELETE ----------------
+  // Deletes the to do
 
   const deleteTodo = (id) => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
-  // ---------------- EDIT ----------------
+  // Edit the to do 
 
   const startEditing = (id, text) => {
     setEditingId(id);
@@ -86,13 +86,13 @@ function App() {
     setEditValue("");
   };
 
-  // ---------------- CLEAR COMPLETED ----------------
+  // Clears the completed To-dos
 
   const clearCompleted = () => {
     setTodos(todos.filter((todo) => !todo.completed));
   };
 
-  // ---------------- FILTER ----------------
+  // Filters between active and completed to-dos
 
   const filteredTodos = todos.filter((todo) => {
     if (filter === "active") return !todo.completed;
@@ -100,7 +100,7 @@ function App() {
     return true;
   });
 
-  // ---------------- RENDER ----------------
+  // Renders the website 
 
   return (
     <div className="App">
