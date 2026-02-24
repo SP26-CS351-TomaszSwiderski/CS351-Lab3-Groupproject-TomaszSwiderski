@@ -10,6 +10,7 @@ function App() {
 
   const [todos, setTodos] = useState([]);
   const [inputValue, setInputValue] = useState("");
+  const [priority, setPriority] = useState("Medium");
   const [filter, setFilter] = useState("all");
   const [editingId, setEditingId] = useState(null);
   const [editValue, setEditValue] = useState("");
@@ -38,12 +39,13 @@ function App() {
       id: Date.now(),
       text: inputValue.trim(),
       completed: false,
-      priority: "medium",
+      priority: priority,
       createdAt: new Date().toISOString(),
     };
 
     setTodos([...todos, newTodo]);
     setInputValue("");
+    setPriority("Medium");
   };
 
   // Toggles the to do between completed and active
@@ -115,6 +117,17 @@ function App() {
           placeholder="Enter a new todo..."
           className="todo-input"
         />
+
+        <select
+          value={priority}
+          onChange={(e) => setPriority(e.target.value)}
+          className="priority-select"
+        >
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
+
         <Button type="submit" text="Add Todo" />
       </form>
 

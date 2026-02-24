@@ -8,77 +8,99 @@ function ToDoItem({
   isEditing,
   editValue,
   setEditValue,
-  onSave,
+  onSave
 }) {
+  const getPriorityStyle = () => {
+    if (todo.priority === "High") {
+      return { backgroundColor: "#fee2e2", color: "#b91c1c" };
+    }
+    if (todo.priority === "Low") {
+      return { backgroundColor: "#dcfce7", color: "#166534" };
+    }
+    return { backgroundColor: "#fef9c3", color: "#92400e" };
+  };
+
   const containerStyle = {
     display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: "12px 16px",
+    flexDirection: "column",
+    padding: "14px 16px",
     marginBottom: "12px",
     backgroundColor: "#ffffff",
     borderRadius: "8px",
-    boxShadow: "0 2px 6px rgba(0, 0, 0, 0.08)",
+    boxShadow: "0 2px 6px rgba(0, 0, 0, 0.08)"
+  };
+
+  const topRowStyle = {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center"
   };
 
   const leftSectionStyle = {
     display: "flex",
     alignItems: "center",
-    flex: 1,
+    gap: "10px",
+    flex: 1
+  };
+
+  const badgeStyle = {
+    padding: "4px 8px",
+    borderRadius: "12px",
+    fontSize: "12px",
+    fontWeight: "600",
+    ...getPriorityStyle()
   };
 
   const textStyle = {
-    marginLeft: "12px",
-    fontSize: "15px",
-    fontWeight: "500",
-    color: todo.completed ? "#9ca3af" : "#111827",
     textDecoration: todo.completed ? "line-through" : "none",
+    color: todo.completed ? "#9ca3af" : "#111827"
   };
 
-  const inputStyle = {
-    marginLeft: "12px",
-    padding: "6px 8px",
-    borderRadius: "6px",
-    border: "1px solid #d1d5db",
-    fontSize: "14px",
-    flex: 1,
-  };
-
-  const buttonGroupStyle = {
-    display: "flex",
-    gap: "8px",
+  const timestampStyle = {
+    marginTop: "6px",
+    fontSize: "12px",
+    color: "#6b7280"
   };
 
   return (
     <div style={containerStyle}>
-      <div style={leftSectionStyle}>
-        <input
-          type="checkbox"
-          checked={todo.completed}
-          onChange={onToggle}
-        />
-
-        {isEditing ? (
+      <div style={topRowStyle}>
+        <div style={leftSectionStyle}>
           <input
-            type="text"
-            value={editValue}
-            onChange={(e) => setEditValue(e.target.value)}
-            style={inputStyle}
+            type="checkbox"
+            checked={todo.completed}
+            onChange={onToggle}
           />
-        ) : (
-          <span style={textStyle}>{todo.text}</span>
-        )}
+
+          {isEditing ? (
+            <input
+              type="text"
+              value={editValue}
+              onChange={(e) => setEditValue(e.target.value)}
+              style={{ flex: 1 }}
+            />
+          ) : (
+            <>
+              <span style={badgeStyle}>{todo.priority}</span>
+              <span style={textStyle}>{todo.text}</span>
+            </>
+          )}
+        </div>
+
+        <div style={{ display: "flex", gap: "8px" }}>
+          {isEditing ? (
+            <Button text="Save" onClick={onSave} />
+          ) : (
+            <>
+              <Button text="Edit" onClick={onEdit} />
+              <Button text="Delete" onClick={onDelete} />
+            </>
+          )}
+        </div>
       </div>
 
-      <div style={buttonGroupStyle}>
-        {isEditing ? (
-          <Button text="Save" onClick={onSave} />
-        ) : (
-          <>
-            <Button text="Edit" onClick={onEdit} />
-            <Button text="Delete" onClick={onDelete} />
-          </>
-        )}
+      <div style={timestampStyle}>
+        Created: {new Date(todo.createdAt).toLocaleString()}
       </div>
     </div>
   );
