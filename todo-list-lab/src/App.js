@@ -90,7 +90,7 @@ function App() {
     return true;
   });
 
-  // ✅ Filter Counts
+  //  Filter Counts
   const activeCount = todos.filter((todo) => !todo.completed).length;
   const completedCount = todos.filter((todo) => todo.completed).length;
 
