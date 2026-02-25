@@ -8,7 +8,8 @@ function ToDoItem({
   isEditing,
   editValue,
   setEditValue,
-  onSave
+  onSave,
+  onCancel
 }) {
   const getPriorityStyle = () => {
     if (todo.priority === "High") {
@@ -89,13 +90,16 @@ function ToDoItem({
 
         <div style={{ display: "flex", gap: "8px" }}>
           {isEditing ? (
-            <Button text="Save" onClick={onSave} />
-          ) : (
             <>
+             <Button text="Save" onClick={onSave} />
+              <Button text="Cancel" onClick={onCancel} variant="secondary" />
+             </>
+              ) : (
+              <>
               <Button text="Edit" onClick={onEdit} />
-              <Button text="Delete" onClick={onDelete} />
-            </>
-          )}
+              <Button text="Delete" onClick={onDelete} variant="danger" />
+                </>
+    )}
         </div>
       </div>
 

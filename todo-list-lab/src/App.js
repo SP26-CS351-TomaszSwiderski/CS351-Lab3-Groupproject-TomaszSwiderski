@@ -86,7 +86,11 @@ function App() {
 
     setEditingId(null);
     setEditValue("");
-  };
+      };
+      const cancelEdit = () => {
+      setEditingId(null);
+      setEditValue("");
+      };
 
   // Clears the completed To-dos
 
@@ -156,10 +160,10 @@ function App() {
             editValue={editValue}
             setEditValue={setEditValue}
             onSave={() => saveEdit(todo.id)}
+            onCancel={cancelEdit}
           />
         ))}
       </div>
-
       {/* Clear Completed */}
       {todos.some((todo) => todo.completed) && (
         <Button text="Clear Completed" onClick={clearCompleted} />
