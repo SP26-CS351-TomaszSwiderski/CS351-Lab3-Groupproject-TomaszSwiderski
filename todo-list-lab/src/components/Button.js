@@ -1,4 +1,10 @@
-function Button({ text, onClick, type = "button", variant = "primary" }) {
+function Button({
+  text,
+  onClick,
+  type = "button",
+  variant = "primary",
+  isActive = false,
+}) {
   const baseStyle = {
     padding: "8px 16px",
     borderRadius: "6px",
@@ -11,7 +17,7 @@ function Button({ text, onClick, type = "button", variant = "primary" }) {
 
   const variants = {
     primary: {
-      backgroundColor: "#2563eb",
+      backgroundColor: isActive ? "#003366" : "#0066cc",
       color: "white",
     },
     danger: {

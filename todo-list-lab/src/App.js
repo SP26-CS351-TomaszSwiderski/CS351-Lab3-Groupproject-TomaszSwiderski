@@ -6,16 +6,12 @@ import Button from "./components/Button";
 import ToDoItem from "./components/TodoItems";
 
 function App() {
-  // Use state for important functions
-
   const [todos, setTodos] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [priority, setPriority] = useState("Medium");
   const [filter, setFilter] = useState("all");
   const [editingId, setEditingId] = useState(null);
   const [editValue, setEditValue] = useState("");
-
-  // Local storage for Inputted To-Dos
 
   useEffect(() => {
     const savedTodos = JSON.parse(localStorage.getItem("todos"));
@@ -28,11 +24,8 @@ function App() {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
 
-  // Add a new to-do
-
   const handleSubmit = (event) => {
     event.preventDefault();
-
     if (inputValue.trim() === "") return;
 
     const newTodo = {
@@ -48,8 +41,6 @@ function App() {
     setPriority("Medium");
   };
 
-  // Toggles the to do between completed and active
-
   const toggleTodo = (id) => {
     setTodos(
       todos.map((todo) =>
@@ -60,13 +51,9 @@ function App() {
     );
   };
 
-  // Deletes the to do
-
   const deleteTodo = (id) => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
-
-  // Edit the to do 
 
   const startEditing = (id, text) => {
     setEditingId(id);
@@ -86,19 +73,16 @@ function App() {
 
     setEditingId(null);
     setEditValue("");
-      };
-      const cancelEdit = () => {
-      setEditingId(null);
-      setEditValue("");
-      };
+  };
 
-  // Clears the completed To-dos
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditValue("");
+  };
 
   const clearCompleted = () => {
     setTodos(todos.filter((todo) => !todo.completed));
   };
-
-  // Filters between active and completed to-dos
 
   const filteredTodos = todos.filter((todo) => {
     if (filter === "active") return !todo.completed;
@@ -106,13 +90,14 @@ function App() {
     return true;
   });
 
-  // Renders the website 
+  // ✅ Filter Counts
+  const activeCount = todos.filter((todo) => !todo.completed).length;
+  const completedCount = todos.filter((todo) => todo.completed).length;
 
   return (
     <div className="App">
       <Header title="My Todo List" />
 
-      {/* Add Todo */}
       <form onSubmit={handleSubmit} className="todo-form">
         <input
           type="text"
@@ -135,17 +120,27 @@ function App() {
         <Button type="submit" text="Add Todo" />
       </form>
 
-      {/* Filter Buttons */}
+      {/* Filter Buttons with Counts */}
       <div className="filters">
-        <Button text="All" onClick={() => setFilter("all")} />
-        <Button text="Active" onClick={() => setFilter("active")} />
-        <Button text="Completed" onClick={() => setFilter("completed")} />
+        <Button
+          text={`All (${todos.length})`}
+          onClick={() => setFilter("all")}
+          isActive={filter === "all"}
+        />
+        <Button
+          text={`Active (${activeCount})`}
+          onClick={() => setFilter("active")}
+          isActive={filter === "active"}
+        />
+        <Button
+          text={`Completed (${completedCount})`}
+          onClick={() => setFilter("completed")}
+          isActive={filter === "completed"}
+        />
       </div>
 
-      {/* Todo Count */}
       <p>{filteredTodos.length} todos</p>
 
-      {/* Todo List */}
       <div className="todo-list">
         {filteredTodos.length === 0 && <p>No todos yet!</p>}
 
@@ -164,7 +159,7 @@ function App() {
           />
         ))}
       </div>
-      {/* Clear Completed */}
+
       {todos.some((todo) => todo.completed) && (
         <Button text="Clear Completed" onClick={clearCompleted} />
       )}
@@ -172,5 +167,4 @@ function App() {
   );
 }
 
-// Export the App component
 export default App;
